@@ -1,4 +1,4 @@
-neurone
+embla
 =======
 
 `embla` is an [R-package](https://www.r-project.org/) for reading physiologic data recorded with an [Embla device](http://www.natus.com/index.cfm?page=products_1&crid=998).
