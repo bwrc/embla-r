@@ -95,6 +95,11 @@ read.ebm <- function(datapath, channels = NULL, start = 0, data.length = NULL, h
             tmp     <- read.ebm.single(f, start = start, data.length = data.length, header.only = FALSE)
             channel <- create_variable_name(tmp$header$EBM_R_CHANNEL_NAME)
 
+            if (length(channel) == 0) {
+            	warning(sprintf("Channel has zero length for file: %s", f))
+            	next # no data, no channel?
+            }
+            
             recording$header.signal[[channel]]       <- tmp$header
 
             recording$signal[[channel]]$data         <- tmp$signal$data
