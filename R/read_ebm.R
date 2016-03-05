@@ -68,9 +68,9 @@ read.ebm <- function(datapath, channels = NULL, start = 0, data.length = NULL, h
     recording$properties$time.start     <- as.POSIXct(strptime(header$EBM_R_TIME, format = "%Y%m%dT%H%M%OS")) + start
 
     if (is.null(data.length))
-        recording$properties$time.stop <- recording$properties$time.start + header$data_length
+        recording$properties$time.stop <- recording$properties$time.start + unlist(header$data_length)
     else
-        recording$properties$time.stop <- recording$properties$time.start + data.length
+        recording$properties$time.stop <- recording$properties$time.start + unlist(data.length)
 
     if ((start == 0) & (is.null(data.length)))
         recording$properties$length <- header$data_length
