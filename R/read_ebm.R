@@ -150,9 +150,19 @@ read.ebm.single <- function(datafile, start = 0, data.length = NULL, header.only
     signature <- vector(mode = "raw", length = EBM_MAX_SIGNATURE_SIZE)
 
     i <- 1
-    while ((signature[i] <- readBin(f, "raw", size = 1, n = 1, signed = FALSE, endian = endian)) != EBM_END_OF_SIGNATURE)
-        i <- i + 1
+    keep.reading <- TRUE
+    while (keep.reading == TRUE) {
+        temp.sigdata <- readBin(f, "raw", size = 1, n = 1, signed = FALSE, endian = endian)
+        if (length(temp.sigdata) == 0) {
+        	warning(sprintf("Zero length read trying to get signature. Early EOF? (%s)", datafile))
+        	break
+        }
+        signature[i] <- temp.sigdata
+        if (temp.sigdata == EBM_END_OF_SIGNATURE) break
 
+        i <- i + 1
+    }
+    
     header$data_header <- readBin(signature[-i], character())
     header$endian      <- readBin(f, "raw", size = 1, n = 32, signed = FALSE, endian = endian)
     ebmvertmp          <- paste(header$endian[2:6], collapse = "")
