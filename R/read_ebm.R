@@ -243,6 +243,10 @@ read.ebm.single <- function(datafile, start = 0, data.length = NULL, header.only
         return(list("header" = header, "data" = NULL))
     ## --------------------------------------------------    
 
+    if (length(signal) == 0) {
+    	warning(sprintf("Zero length signal in file: %s", datafile))
+    	return(list("header" = header, "data" = NULL))
+    }
 
     ## scale the data
     if (header$EBM_R_CALIBRATE_UNIT == "V")
