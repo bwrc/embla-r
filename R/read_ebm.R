@@ -177,7 +177,7 @@ read.ebm.single <- function(datafile, start = 0, data.length = NULL, header.only
         header$id_rec_size <- 4
     } else {
         header$ebm_version <- "< 4.0"
-        heder$id_rec_size <- 1
+        header$id_rec_size <- 1
     }
 
     ## Read the EBM file
