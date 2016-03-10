@@ -68,9 +68,9 @@ read.ebm <- function(datapath, channels = NULL, start = 0, data.length = NULL, h
     recording$properties$time.start     <- as.POSIXct(strptime(header$EBM_R_TIME, format = "%Y%m%dT%H%M%OS")) + start
 
     if (is.null(data.length))
-        recording$properties$time.stop <- recording$properties$time.start + header$data_length
+        recording$properties$time.stop <- recording$properties$time.start + unlist(header$data_length)
     else
-        recording$properties$time.stop <- recording$properties$time.start + data.length
+        recording$properties$time.stop <- recording$properties$time.start + unlist(data.length)
 
     if ((start == 0) & (is.null(data.length)))
         recording$properties$length <- header$data_length
@@ -95,6 +95,11 @@ read.ebm <- function(datapath, channels = NULL, start = 0, data.length = NULL, h
             tmp     <- read.ebm.single(f, start = start, data.length = data.length, header.only = FALSE)
             channel <- create_variable_name(tmp$header$EBM_R_CHANNEL_NAME)
 
+            if (length(channel) == 0) {
+            	warning(sprintf("Channel has zero length for file: %s", f))
+            	next # no data, no channel?
+            }
+            
             recording$header.signal[[channel]]       <- tmp$header
 
             recording$signal[[channel]]$data         <- tmp$signal$data
@@ -150,9 +155,19 @@ read.ebm.single <- function(datafile, start = 0, data.length = NULL, header.only
     signature <- vector(mode = "raw", length = EBM_MAX_SIGNATURE_SIZE)
 
     i <- 1
-    while ((signature[i] <- readBin(f, "raw", size = 1, n = 1, signed = FALSE, endian = endian)) != EBM_END_OF_SIGNATURE)
-        i <- i + 1
+    keep.reading <- TRUE
+    while (keep.reading == TRUE) {
+        temp.sigdata <- readBin(f, "raw", size = 1, n = 1, signed = FALSE, endian = endian)
+        if (length(temp.sigdata) == 0) {
+        	warning(sprintf("Zero length read trying to get signature. Early EOF? (%s)", datafile))
+        	break
+        }
+        signature[i] <- temp.sigdata
+        if (temp.sigdata == EBM_END_OF_SIGNATURE) break
 
+        i <- i + 1
+    }
+    
     header$data_header <- readBin(signature[-i], character())
     header$endian      <- readBin(f, "raw", size = 1, n = 32, signed = FALSE, endian = endian)
     ebmvertmp          <- paste(header$endian[2:6], collapse = "")
@@ -177,7 +192,7 @@ read.ebm.single <- function(datafile, start = 0, data.length = NULL, header.only
         header$id_rec_size <- 4
     } else {
         header$ebm_version <- "< 4.0"
-        heder$id_rec_size <- 1
+        header$id_rec_size <- 1
     }
 
     ## Read the EBM file
@@ -233,6 +248,10 @@ read.ebm.single <- function(datafile, start = 0, data.length = NULL, header.only
         return(list("header" = header, "data" = NULL))
     ## --------------------------------------------------    
 
+    if (length(signal) == 0) {
+    	warning(sprintf("Zero length signal in file: %s", datafile))
+    	return(list("header" = header, "data" = NULL))
+    }
 
     ## scale the data
     if (header$EBM_R_CALIBRATE_UNIT == "V")
