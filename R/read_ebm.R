@@ -275,11 +275,11 @@ read.ebm.single <- function(datafile, start = 0, data.length = NULL, header.only
             data_vector[[i]] <- signal[[i]]
         } else {
             ## create filler time and data vector
-            time_vector[[i]] <- seq.int(from = t_stop[[i - 1]], to = t_start[[i]], by = (1 / header$EBM_R_SAMPLING_RATE))
-            data_vector[[i]] <- rep(NA, length(time_vector[[i]]))
+            time_vector[[2 * (i - 1)]] <- seq.int(from = t_stop[[i - 1]], to = t_start[[i]], by = (1 / header$EBM_R_SAMPLING_RATE))
+            data_vector[[2 * (i - 1)]] <- rep(NA, length(time_vector[[2 * (i - 1)]]))
 
-            time_vector[[i + 1]] <- t_start[[i]] + seq.int(0, (length(signal[[i]]) - 1)) / header$EBM_R_SAMPLING_RATE
-            data_vector[[i + 1]] <- signal[[i]]
+            time_vector[[2 * (i - 1) + 1]] <- t_start[[i]] + seq.int(0, (length(signal[[i]]) - 1)) / header$EBM_R_SAMPLING_RATE
+            data_vector[[2 * (i - 1) + 1]] <- signal[[i]]
         }
     }
 

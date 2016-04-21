@@ -121,7 +121,7 @@ parse_ebm_record <- function(record, data, endian = "big") {
         second  <- readBin(data[7], integer(), size = 1, n = 1, endian = endian)
         sec100  <- readBin(data[8], integer(), size = 1, n = 1, endian = endian)
 
-        out <- sprintf("%d%02d%02dT%02d%02d%0d2.%02d", year, month, day, hour, minute, second, sec100)
+        out <- sprintf("%d%02d%02dT%02d%02d%02d.%02d", year, month, day, hour, minute, second, sec100)
         
     }
     if (record == "EBM_R_CHANNEL") {
