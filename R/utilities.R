@@ -197,9 +197,6 @@ parse_ebm_record <- function(record, data, endian = "big") {
 #'
 #' @param s The string to be used as a variable name
 #' @return The string with non-alphanumeric characters replaced by underscores
-#' @examples
-#' s <- "a-b"
-#' edf:::create.variable.name(s)
 #' @keywords internal
 create_variable_name <- function(s) {
     gsub("[^[:alnum:]]", "_", s)

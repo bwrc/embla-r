@@ -17,9 +17,5 @@ This function creates a sensible variable name by replacing
 all non-alphanumeric characters with underscores. This is useful
 when the string is to be used as a the name of a list element.
 }
-\examples{
-s <- "a-b"
-edf:::create.variable.name(s)
-}
 \keyword{internal}
 

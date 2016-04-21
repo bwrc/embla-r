@@ -22,10 +22,10 @@ filter files from the directory.}
 
 \item{data.length}{The amount of data in seconds to be read.}
 
-\item{header.only}{Boolean denoting whether to only read the headers in the EDF file. Default is FALSE.}
+\item{header.only}{Boolean denoting whether to only read the headers in the EBM file. Default is FALSE.}
 }
 \value{
-The data in the EDF file(s) as a list.
+The data in the EBM file(s) as a list.
 }
 \description{
 This function reads the data stored in an EBM file. This data

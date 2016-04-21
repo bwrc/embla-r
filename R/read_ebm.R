@@ -13,9 +13,9 @@
 #' filter files from the directory.
 #' @param start The offset in seconds from the beginning of the file to start reading data.
 #' @param data.length The amount of data in seconds to be read.
-#' @param header.only Boolean denoting whether to only read the headers in the EDF file. Default is FALSE.
+#' @param header.only Boolean denoting whether to only read the headers in the EBM file. Default is FALSE.
 #'
-#' @return The data in the EDF file(s) as a list.
+#' @return The data in the EBM file(s) as a list.
 #'
 #' @examples
 #' \dontrun{
@@ -123,9 +123,9 @@ read.ebm <- function(datapath, channels = NULL, start = 0, data.length = NULL, h
 #' @param datafile The full path to a particular EBM file.
 #' @param start The offset in seconds from the beginning of the file to start reading data.
 #' @param data.length The amount of data in seconds to be read.
-#' @param header.only Boolean denoting whether to only read the headers in the EDF file. Default is FALSE.
+#' @param header.only Boolean denoting whether to only read the headers in the EBM file. Default is FALSE.
 #'
-#' @return The data in the EDF file as a list.
+#' @return The data in the EBM file as a list.
 #'
 #' @keywords internal
 read.ebm.single <- function(datafile, start = 0, data.length = NULL, header.only = FALSE) {
