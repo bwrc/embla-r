@@ -4,7 +4,7 @@ Version: 0.9.0
 Description: This package contains functions for reading physiologic data stored
     in the Embla Data Format (EBM).
 Authors@R: c(person("Andreas", "Henelius", role = c("aut", "cre"), email =
-    "andreas.henelius@iki.fi"))
+    "andreas.henelius@ttl.fi"))
 Depends:
     R (>= 3.0.2)
 License: MIT + file LICENSE
